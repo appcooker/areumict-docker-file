@@ -1,0 +1,138 @@
+services:
+  v1cpu:
+    image: v1cpu_img
+    container_name: v1cpu_container
+    ports:
+      - 18888:8888
+    build:
+      context: ./v1/cpu
+    volumes:
+      - type: bind
+        source: ./code_logging
+        target: /tf/areumict/code_logging
+    command: sh -c "
+      cd /tf/areumict/ &&
+      jupyter nbextension install code_logging &&
+      jupyter nbextension enable code_logging/main &&
+      touch AAA &&
+      pwd > /tmp/pwd &&
+      /bin/bash /root/.jupyter/change_password.sh aaa &&
+      tail -f /dev/null"
+
+  v2cpu:
+    image: v2cpu_img
+    container_name: v2cpu_container
+    ports:
+      - 18888:8888
+    build:
+      context: ./v2/cpu
+    volumes:
+      - type: bind
+        source: ./code_logging
+        target: /tf/areumict/code_logging
+    command: sh -c "
+      /bin/bash /root/.jupyter/change_password.sh aaa &&
+      tail -f /dev/null"
+
+  v3cpu:
+    image: v3cpu_img
+    container_name: v3cpu_container
+    ports:
+      - 18888:8888
+    build:
+      context: ./v3/cpu
+    volumes:
+      - type: bind
+        source: ./code_logging
+        target: /tf/areumict/code_logging
+    command: sh -c "
+      /bin/bash /root/.jupyter/change_password.sh aaa &&
+      tail -f /dev/null"
+
+  v4cpu:
+    image: v4cpu_img
+    container_name: v4cpu_container
+    ports:
+      - 18888:8888
+    build:
+      context: ./v4/cpu
+    volumes:
+      - type: bind
+        source: ./areumict
+        target: /tf/areumict
+      - type: bind
+        source: ./python_packages/v4/downloaded_python_packages
+        target: /tf/areumict/downloaded_python_packages
+      - type: bind
+        source: ./python_packages/v4/installed_python_packages
+        target: /tf/areumict/installed_python_packages
+    command: sh -c "
+      tail -f /dev/null"
+
+  v5cpu:
+    image: v5cpu_img
+    container_name: v5cpu_container
+    ports:
+      - 18888:8888
+    build:
+      context: ./v5/cpu
+    volumes:
+      - type: bind
+        source: ./areumict
+        target: /tf/areumict
+    command: sh -c "
+      pip install /tf/areumict/AAA/codelogging/dist/codelogging-0.1.0-py3-none-any.whl &&
+      bash /root/.jupyter/change_password.sh aaa &&
+      tail -f /dev/null"
+
+  v6cpu:
+    image: v6cpu_img
+    container_name: v6cpu_container
+    ports:
+      - 18888:8888
+    build:
+      context: ./v6/cpu
+    volumes:
+      - type: bind
+        source: ./areumict
+        target: /tf/areumict
+    command: sh -c "
+      cd /tf/areumict/ &&
+      ./init.sh &&
+      pip install /tf/areumict/AAA/codelogging/dist/codelogging-0.1.0-py3-none-any.whl &&
+      bash /root/.jupyter/change_password.sh aaa &&
+      tail -f /dev/null"
+    #pip download -d . torch==2.2.1 &&
+    #  /bin/bash /root/.jupyter/change_password.sh aaa &&
+    #  tail -f /dev/null"
+
+  v7cpu:
+    image: v7cpu_img
+    container_name: v7cpu_container
+    ports:
+      - 18888:8888
+    build:
+      context: ./v7/cpu
+    volumes:
+      - type: bind
+        source: ./v7/areumict
+        target: /areumict
+      - type: bind
+        source: ./labextension/codelogging
+        target: /areumict/codelogging
+      - type: bind
+        source: ./nodejs/node-v20.16.0-linux-x64
+        target: /areumict/nodejs
+      #- type: bind
+      #  source: ./python_packages/v7/downloaded_python_packages
+      #  target: /tf/areumict/downloaded_python_packages
+      #- type: bind
+      #  source: ./python_packages/v7/installed_python_packages
+      #  target: /tf/areumict/installed_python_packages
+    command: bash -c "
+      echo 'export PATH=$""PATH:/areumict/nodejs/bin' >> /root/.bashrc &&
+      export PATH=$""PATH:/areumict/nodejs/bin &&
+      tail -f /dev/null"
+    #pip download -d . torch==2.2.1 &&
+    #  pip install /tf/areumict/AAA/codelogging/dist/codelogging-0.1.0-py3-none-any.whl &&
+
