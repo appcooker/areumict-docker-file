@@ -118,8 +118,8 @@ services:
         source: ./v7/areumict
         target: /areumict
       - type: bind
-        source: ./labextension/codelogging
-        target: /areumict/codelogging
+        source: ./labextension
+        target: /areumict/labextension
       - type: bind
         source: ./nodejs/node-v20.16.0-linux-x64
         target: /areumict/nodejs
@@ -132,6 +132,7 @@ services:
     command: bash -c "
       echo 'export PATH=$""PATH:/areumict/nodejs/bin' >> /root/.bashrc &&
       export PATH=$""PATH:/areumict/nodejs/bin &&
+      pip install /areumict/codelogging/dist/codelogging-0.1.0-py3-none-any.whl &&
       tail -f /dev/null"
     #pip download -d . torch==2.2.1 &&
     #  pip install /tf/areumict/AAA/codelogging/dist/codelogging-0.1.0-py3-none-any.whl &&
