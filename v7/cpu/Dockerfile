@@ -8,10 +8,9 @@ COPY ./change_password.sh /root/.jupyter/change_password.sh
 
 USER root
 
-CMD ["/bin/bash","/root/.jupyter/change_password.sh"]
-
 RUN mkdir -p /tf/areumict
-
 COPY ./sessions /tf/areumict/sessions
-COPY ./code-logging /tf/areumict/code-logging
+COPY ./codelogging /tf/areumict/codelogging
+RUN pip install /tf/areumict/codelogging/codelogging-0.1.0-py3-none-any.whl
 
+CMD ["/bin/bash","/root/.jupyter/change_password.sh"]
